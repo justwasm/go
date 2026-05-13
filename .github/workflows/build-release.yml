@@ -96,7 +96,7 @@ jobs:
 
             ```bash
             tar -C /usr/local -xzf ${{ steps.package.outputs.tarname }}
-            export PATH=$PATH:/usr/local/go/bin
+            export PATH="/usr/local/go/bin:$PATH"
             ```
           files: ${{ steps.package.outputs.tarpath }}
           draft: false
