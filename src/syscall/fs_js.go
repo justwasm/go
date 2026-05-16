@@ -37,13 +37,6 @@ var (
 )
 
 func init() {
-	constants.Set("O_WRONLY", O_WRONLY)
-	constants.Set("O_RDWR", O_RDWR)
-	constants.Set("O_CREAT", O_CREAT)
-	constants.Set("O_TRUNC", O_TRUNC)
-	constants.Set("O_APPEND", O_APPEND)
-	constants.Set("O_EXCL", O_EXCL)
-	constants.Set("O_DIRECTORY", O_DIRECTORY)
 	oDir := constants.Get("O_DIRECTORY")
 	if !oDir.IsUndefined() {
 		nodeDIRECTORY = oDir.Int()
