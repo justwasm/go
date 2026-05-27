@@ -1561,6 +1561,10 @@ func disallowInternal(ld *modload.Loader, ctx context.Context, srcDir string, im
 		if str.HasPathPrefix(importerPath, parentOfInternal) {
 			return nil
 		}
+		// Allow importing internal packages from third-party modules (non-main modules).
+		if !p.Module.Main {
+			return nil
+		}
 	}
 
 Error:
