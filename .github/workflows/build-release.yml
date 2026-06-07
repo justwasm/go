@@ -8,9 +8,9 @@ on:
         required: false
         default: ''
       version:
-        description: 'Release version tag (e.g. go1.27.0-btwiuse.1)'
+        description: 'Release version tag (e.g. go1.27.0-justwasm.1)'
         required: true
-        default: 'go1.27.0-btwiuse.1'
+        default: 'go1.27.0-justwasm.1'
 
 jobs:
   build:
@@ -141,7 +141,7 @@ jobs:
             # For macOS arm64:
             tar -C /usr/local -xzf ${{ inputs.version }}.darwin-arm64.tar.gz
 
-            export PATH="/usr/local/go/bin:\$PATH"
+            export PATH="/usr/local/go/bin:$PATH"
             ```
           files: release_assets/*
           draft: false
