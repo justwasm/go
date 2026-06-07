@@ -22,6 +22,8 @@ jobs:
             goarch: amd64
           - goos: darwin
             goarch: arm64
+          - goos: js
+            goarch: wasm
 
     steps:
       - name: Checkout repository
