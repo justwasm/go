@@ -43,9 +43,11 @@ jobs:
           rm -rf api/ doc/ test/
           # Remove misc/ subdirs except misc/wasm/ (contains wasm_exec.html needed at runtime)
           find misc/ -mindepth 1 -maxdepth 1 -not -name 'wasm' -exec rm -rf {} +
-          # Remove documentation files throughout the source tree (safe — not used by compiler)
+          # Remove markdown docs (safe — not used by compiler or go:embed)
           find . -name "*.md" -delete
-          find . -name "*.html" -not -path "*/misc/wasm/*" -delete
+          # NOTE: do NOT delete *.html — files like
+          # src/internal/trace/traceviewer/static/trace_viewer_full.html
+          # are go:embed assets required at compile time.
           # Remove top-level build scripts for other platforms (keep src/make.bash etc.)
           find . -maxdepth 1 -name "*.bat" -delete
           find . -maxdepth 1 -name "*.rc" -delete
