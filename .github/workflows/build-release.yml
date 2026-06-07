@@ -143,7 +143,7 @@ jobs:
             # For macOS arm64:
             tar -C /usr/local -xzf ${{ inputs.version }}.darwin-arm64.tar.gz
 
-            export PATH="/usr/local/go/bin:\$PATH"
+            export PATH="/usr/local/go/bin:$PATH"
             ```
           artifacts: "release_assets/*"
           allowUpdates: true
