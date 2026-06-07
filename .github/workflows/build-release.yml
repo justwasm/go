@@ -119,9 +119,9 @@ jobs:
           find artifacts/ -name "*.zip" -exec cp {} release_assets/ \;
 
       - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
+        uses: ncipollo/release-action@v1
         with:
-          tag_name: ${{ inputs.version }}
+          tag: ${{ inputs.version }}
           name: ${{ inputs.version }}
           body: |
             ## ${{ inputs.version }}
@@ -141,8 +141,9 @@ jobs:
             # For macOS arm64:
             tar -C /usr/local -xzf ${{ inputs.version }}.darwin-arm64.tar.gz
 
-            export PATH="/usr/local/go/bin:$PATH"
+            export PATH="/usr/local/go/bin:\$PATH"
             ```
-          files: release_assets/*
-          draft: false
-          prerelease: false
+          artifacts: "release_assets/*"
+          allowUpdates: true
+          overwrite: true
+          token: ${{ secrets.GITHUB_TOKEN }}
