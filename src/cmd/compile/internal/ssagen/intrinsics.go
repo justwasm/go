@@ -19,6 +19,13 @@ import (
 
 var intrinsics intrinsicBuilders
 
+// initAMD64SIMDIntrinsics and initARM64SIMDIntrinsics are set by
+// arch-specific init() functions in files with build constraints.
+// On platforms without SIMD support (e.g., js/wasm), they remain nil
+// and the corresponding generated files are not compiled at all.
+var initAMD64SIMDIntrinsics func(addF func(pkg, fn string, b intrinsicBuilder, archFamilies ...sys.ArchFamily))
+var initARM64SIMDIntrinsics func(addF func(pkg, fn string, b intrinsicBuilder, archFamilies ...sys.ArchFamily))
+
 // An intrinsicBuilder converts a call node n into an ssa value that
 // implements that call as an intrinsic. args is a list of arguments to the func.
 type intrinsicBuilder func(s *state, n *ir.CallExpr, args []*ssa.Value) *ssa.Value
@@ -1673,8 +1680,12 @@ func initIntrinsics(cfg *intrinsicBuildConfig) {
 
 	if buildcfg.Experiment.SIMD {
 		// Only enable intrinsics, if SIMD experiment.
-		simdAMD64Intrinsics(addF)
-		simdARM64Intrinsics(addF)
+		if initAMD64SIMDIntrinsics != nil {
+			initAMD64SIMDIntrinsics(addF)
+		}
+		if initARM64SIMDIntrinsics != nil {
+			initARM64SIMDIntrinsics(addF)
+		}
 		initWasmSIMD()
 
 		addF(simdPackage, "ClearAVXUpperBits",
